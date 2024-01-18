@@ -15,11 +15,10 @@ exports.LoginPage = class LoginPage {
     this.lockedoutUserError = this.page.getByTestId("error");
   }
 
-
   async login(username) {
     await this.userNameInput.fill(username);
     await this.passwordInput.fill("secret_sauce");
-    await this.loginButton.click(); 
+    await this.loginButton.click();
   }
 
 };
