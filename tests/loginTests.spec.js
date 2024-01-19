@@ -5,23 +5,26 @@ test.beforeEach(async ({ page }) => {
     await page.goto('');
 });
 
-test('Navigate and assert title', async ({ page }) => {
-  await expect(page).toHaveTitle('Swag Labs');
+test("Navigate and assert title", async ({ page }) => {
+  await expect(page).toHaveTitle("Swag Labs");
+  await expect(page).toHaveScreenshot();
 });
 
-test('Login with a standard user', async ({ page }) => {
+test("Login with a standard user", async ({ page }) => {
   const loginPage = new LoginPage(page);
   await loginPage.login("standard_user");
 
   await expect(loginPage.shoppingCartLink).toBeVisible();
+  await expect(page).toHaveScreenshot();
 });
 
-test('Login with locked out user', async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.login("locked_out_user");
+test("Login with locked out user", async ({ page }) => {
+  const loginPage = new LoginPage(page);
+  await loginPage.login("locked_out_user");
 
-    await expect(loginPage.lockedoutUserError).toHaveText(
-      "Epic sadface: Sorry, this user has been locked out."
-    );
-})
+  await expect(loginPage.lockedoutUserError).toHaveText(
+    "Epic sadface: Sorry, this user has been locked out."
+  );
+  await expect(page).toHaveScreenshot();
+});
 

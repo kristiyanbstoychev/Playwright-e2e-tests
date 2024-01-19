@@ -65,10 +65,13 @@ exports.CheckOutFlow = class CheckOutFlow {
 
     await productPage.verifyItem("yourCartPage", itemObject);
 
+    await expect(this.page).toHaveScreenshot();
+
     await expect(this.removeItemFromCartButtonCheckoutPage).toBeVisible();
 
     await this.checkOutButton.click();
     await expect(this.checkOutForm).toBeVisible();
+    await expect(this.page).toHaveScreenshot();
 
     await this.checkOutFormFirstName.fill("test");
     await this.checkOutFormLastName.fill("test");
@@ -79,8 +82,10 @@ exports.CheckOutFlow = class CheckOutFlow {
     await expect(productPage.itemDescription).toContainText(
       itemObject.itemDescription
     );
-    await this.finishCheckoutButton.click();
+    await expect(this.page).toHaveScreenshot();
 
+    await this.finishCheckoutButton.click();
+    
     await expect(this.checkoutCompleteMessage).toBeVisible();
     await expect(this.checkoutCompleteMessage).toContainText(
       this.checkoutSuccessMessage
@@ -89,6 +94,7 @@ exports.CheckOutFlow = class CheckOutFlow {
       this.checkoutSuccessMessageDescription
     );
     await expect(this.backToProductsButton).toBeVisible();
+    await expect(this.page).toHaveScreenshot();
   }
 
   async checkoutFromTheMainPage(itemObject) {
@@ -107,7 +113,7 @@ exports.CheckOutFlow = class CheckOutFlow {
     await this.page
       .locator("//img[@alt='" + itemObject.itemName + "']")
       .click();
-
+    await expect(this.page).toHaveScreenshot();
     await expect(
       this.page.locator("//img[@alt='" + itemObject.itemName + "']")
     ).toBeVisible();
@@ -115,6 +121,7 @@ exports.CheckOutFlow = class CheckOutFlow {
     await expect(this.backToProductsButton).toBeVisible();
 
     await productPage.verifyItem("itemPage", itemObject);
+    await expect(this.page).toHaveScreenshot();
 
     await productPage.addToCartFromItemPage.click();
 
