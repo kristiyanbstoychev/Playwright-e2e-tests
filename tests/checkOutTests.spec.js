@@ -4,6 +4,14 @@ const { LoginPage } = require("../pages/loginPage");
 const { CheckOutFlow } = require("../pages/checkOut");
 const { Products } = require("../pages/products");
 
+const products = new Products();
+const productsArray = [
+  products.backPackItem,
+  products.bikeLightItem,
+  products.tShirtItem,
+  products.jacketItem,
+];
+
 test.beforeEach(async ({ page }) => {
   const loginPage = new LoginPage(page);
   await page.goto("");
@@ -12,71 +20,24 @@ test.beforeEach(async ({ page }) => {
   await expect(loginPage.shoppingCartLink).toBeVisible();
 });
 
-// test("Buy backpack from home page", async ({ page }) => {
-//   const checkOutFlow = new CheckOutFlow(page);
-//   const products = new Products();
+test.describe("Checkout from the individual product page", () => {
+  for (const data in productsArray) {
+    test("Buy item from product page test: " + data, async ({ page }) => {
+      const checkOutFlow = new CheckOutFlow(page);
+      await checkOutFlow.checkOutFromProductPage(productsArray[data]);
+    });
+  }
+});
 
-//   await checkOutFlow.checkoutFromTheMainPage(products.backPackItem);
-// });
+test.describe("Checkout from the Home page", () => {
+  for (const data in productsArray) {
+    test("Buy item from the main page test: " + data, async ({ page }) => {
+      const checkOutFlow = new CheckOutFlow(page);
 
-// test("Buy backpack from item page", async ({ page }) => {
-//   const checkOutFlow = new CheckOutFlow(page);
-//   const products = new Products();
-
-//   await checkOutFlow.checkOutFromProductPage(products.backPackItem);
-// });
-
-// test("Buy bike light from home page", async ({ page }) => {
-//   const checkOutFlow = new CheckOutFlow(page);
-//   const products = new Products();
-
-//   await checkOutFlow.checkoutFromTheMainPage(products.bikeLightItem);
-// });
-
-// test("Buy bike light from item page", async ({ page }) => {
-//   const checkOutFlow = new CheckOutFlow(page);
-//   const products = new Products();
-
-//   await checkOutFlow.checkOutFromProductPage(products.bikeLightItem);
-// });
-
-// test("Buy t-shirt from the home page", async ({ page }) => {
-//   const checkOutFlow = new CheckOutFlow(page);
-//   const products = new Products();
-
-//   await checkOutFlow.checkoutFromTheMainPage(products.tShirtItem);
-// });
-
-// test("Buy t-shirt from item page", async ({ page }) => {
-//   const checkOutFlow = new CheckOutFlow(page);
-//   const products = new Products();
-
-//   await checkOutFlow.checkOutFromProductPage(products.tShirtItem);
-// });
-
-const products = new Products();
-const productsArray = [
-  products.backPackItem,
-  products.bikeLightItem,
-  products.tShirtItem,
-];
-
-for (const data in productsArray) {
-  test("Buy item from product page test: " + data, async ({ page }) => {
-    const checkOutFlow = new CheckOutFlow(page);
-
-    await checkOutFlow.checkOutFromProductPage(productsArray[data]);
-  });
-}
-
-for (const data in productsArray) {
-  test("Buy item from the main page test: " + data, async ({ page }) => {
-    const checkOutFlow = new CheckOutFlow(page);
-
-    await checkOutFlow.checkoutFromTheMainPage(productsArray[data]);
-  });
-}
-
+      await checkOutFlow.checkoutFromTheMainPage(productsArray[data]);
+    });
+  }
+});
 
 
 
